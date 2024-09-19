@@ -5,7 +5,7 @@ export default function CourseStatus() {
         <button>Unpublish</button> 
         <button>Publish</button>
         <button>Import Existing Content</button> 
-        <button>Import from Commons</button>
+        <button>Import from Comments</button>
         <button>Choose Home Page</button> 
         <button>View Course Stream</button>
         <button>New Announcement</button> 
