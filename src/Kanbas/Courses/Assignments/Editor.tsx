@@ -1,5 +1,5 @@
 export default function AssignmentEditor() {
-    return (
+  return (
       <div id="wd-assignments-editor">
         <label htmlFor="wd-name">Assignment Name</label>
         <input id="wd-name" value="A1 - ENV + HTML" /><br /><br />
@@ -115,9 +115,6 @@ export default function AssignmentEditor() {
             <input id="wd-available-until" type="date" />
           </td>
         </tr>
-
-
-
         </table>
 
         {/* Save and Cancel Buttons */}
