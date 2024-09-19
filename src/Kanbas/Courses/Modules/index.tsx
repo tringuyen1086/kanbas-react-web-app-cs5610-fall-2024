@@ -19,11 +19,6 @@ export default function Modules() {
     alert('New module added');
   }; 
   
-  const handlePublishItem = (item) => {
-    // Handle for publishing individual item
-    alert(`${item} published`);
-  };
-  
   return (
       <div>
         {/* Implement Collapse All button, View Progress button, etc. */}
