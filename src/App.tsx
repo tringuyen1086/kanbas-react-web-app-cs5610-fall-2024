@@ -12,7 +12,7 @@ function App() {
       <HashRouter>
         <div>
           <Routes>
-            <Route path="/" element={<Navigate to="Kanbas" />} />             {/* default landing page  */}
+            <Route path="/" element={<Navigate to="Labs" />} />             {/* default landing page  */}
             <Route path="/Labs/*" element={<Labs />} />
             <Route path="/Kanbas/*" element={<Kanbas />} />
             <Route path="/Github/*" element={<Github />} />

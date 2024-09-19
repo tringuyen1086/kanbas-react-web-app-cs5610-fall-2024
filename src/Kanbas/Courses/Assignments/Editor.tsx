@@ -45,7 +45,7 @@ export default function AssignmentEditor() {
           </td>
         </tr>
 
-        {/* Submission Type as with drop boxes for different options */}
+        {/* Submission Type with drop boxes for different options */}
         <tr>
           <td align="right" valign="top">
             <label htmlFor="wd-submission-type">Submission Type</label>
@@ -58,7 +58,7 @@ export default function AssignmentEditor() {
           </td>
         </tr>
 
-        {/* Online Entry Options as with multiple check boxes for different options */}
+        {/* Online Entry Options with multiple check boxes for different options */}
         <tr>
           <td align="right" valign="top">
             <label>Online Entry Options</label>
@@ -119,6 +119,12 @@ export default function AssignmentEditor() {
 
 
         </table>
+
+        {/* Save and Cancel Buttons */}
+        <div style={{ marginTop: '20px' }}>
+          <button type="submit" onClick={() => alert('Form Saved')}>Save</button>
+          <button type="button" onClick={() => alert('Form Cancelled')} style={{ marginRight: '10px' }}>Cancel</button>
+        </div>
       </div>
   );}
   

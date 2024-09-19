@@ -28,7 +28,6 @@ export default function Assignments() {
             Multiple Modules | <strong>Not available until</strong> May 13 at 12:00am |
             <strong> Due</strong> May 20 at 11:59pm | 100 pts
           </p>
-          {/* Complete On Your Own */}
         </li>
 
         <li className="wd-assignment-list-item">

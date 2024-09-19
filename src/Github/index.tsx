@@ -1,7 +1,7 @@
 export default function Github(){
     return (
         <div>
-            <h2>Github</h2>
+            <h2>Tri Nguyen's Github</h2>
         </div>
     )
 }
