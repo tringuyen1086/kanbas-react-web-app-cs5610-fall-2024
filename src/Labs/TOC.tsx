@@ -1,6 +1,8 @@
+import { useLocation } from "react-router";
 export default function TOC() {
+    const { pathname } = useLocation();
     return (
-        <ul>
+/*         <ul>
             <li><a id="wd-a" href="#/Labs">Labs</a></li>
             <li><a id="wd-a1" href="#/Labs/Lab1">Lab 1</a></li>
             <li><a id="wd-a2" href="#/Labs/Lab2">Lab 2</a></li>
@@ -8,6 +10,41 @@ export default function TOC() {
             <li><a id="wd-k" href="#/Kanbas">Kanbas</a></li>
             <li><a id="wd-g" href="https://github.com/tringuyen1086/kanbas-react-web-app-cs5610-fall-2024/tree/a1">
             Tri Nguyen's Github</a></li>
-        </ul>
+        </ul> */
+        <ul className="nav nav-pills">
+            <li className="nav-item">
+                <a id="wd-a" href="#/Labs" className="nav-link">
+                    Labs
+                </a>
+            </li>
+            <li className="nav-item">
+                <a id="wd-a1" href="#/Labs/Lab1"
+                    className={`nav-link ${pathname.includes("Lab1") ? "active" : ""}`}>
+                    Lab 1
+                </a>
+            </li>
+            <li className="nav-item">
+                <a id="wd-a2" href="#/Labs/Lab2"
+                    className={`nav-link ${pathname.includes("Lab2") ? "active" : ""}`}>
+                    Lab 2
+                </a>
+            </li>
+            <li className="nav-item">
+                <a id="wd-a3" href="#/Labs/Lab3"
+                    className={`nav-link ${pathname.includes("Lab3") ? "active" : ""}`}>
+                    Lab 3
+                </a>
+            </li>
+            <li className="nav-item">
+                <a id="wd-k" href="#/Kanbas" className="nav-link">
+                    Kanbas
+                </a>
+            </li>
+            <li className="nav-item">
+                <a id="wd-k" href="https://github.com/tringuyen1086/kanbas-react-web-app-cs5610-fall-2024/tree/a1" className="nav-link">
+                    Tri Nguyen's Github
+                </a>
+            </li>
+        </ul>    
     )
 }
