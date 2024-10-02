@@ -11,6 +11,7 @@ import Zindex from "./Zindex";
 import Float from "./Float";
 import GridLayout from "./GridLayout";
 import Flex from "./Flex";
+import ReactIconsSampler from "./ReactIconsSamplers";
 
 export default function Lab2() {
   return (
@@ -113,6 +114,9 @@ export default function Lab2() {
 
       {/* Import and use Flex */}
       <Flex />
+
+      {/* Import and use ReactIconsSampler */}
+      <ReactIconsSampler />
 
     </div>
   );
