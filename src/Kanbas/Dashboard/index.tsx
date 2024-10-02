@@ -4,187 +4,239 @@ export default function Dashboard() {
     <div id="wd-dashboard">
       <h1 id="wd-dashboard-title">Dashboard</h1> <hr />
       <h2 id="wd-dashboard-published">Published Courses (12)</h2> <hr />
-      <div id="wd-dashboard-courses">
-        {/* Course 1 */}
-        <div className="wd-dashboard-course">
-          <img src="/images/reactjs.jpg" width={200} />
-          <div>
-            <Link className="wd-dashboard-course-link"
-              to="/Kanbas/Courses/1234/Home">
-              CS1234 React JS
-            </Link>
-            <p className="wd-dashboard-course-title">
-              Full Stack software developer
-            </p>
-            <Link to="/Kanbas/Courses/1234/Home"> Go </Link>
-          </div>
-        </div>       
 
-        {/* Course 2 */}
-        <div className="wd-dashboard-course">
-          <img src="/images/programmingParadigm.jpg" width={200} />
-          <div>
-            <Link className="wd-dashboard-course-link"
-              to="/Kanbas/Courses/1234/Home">
-              CS5010 Programming Paradigm
-            </Link>
-            <p className="wd-dashboard-course-title">
-              Core Requirements
-            </p>
-            <Link to="/Kanbas/Courses/1234/Home"> Go </Link>
-          </div>
-        </div>
+        <div id="wd-dashboard-courses" className="row">
+          <div className="row row-cols-1 row-cols-md-5 g-4">
 
-        {/* Course 3 */}
-        <div className="wd-dashboard-course">
-          <img src="/images/webDevelopment.jpg" width={200} />
-          <div>
-            <Link className="wd-dashboard-course-link"
-              to="/Kanbas/Courses/1234/Home">
-              CS5610 Web Development
-            </Link>
-            <p className="wd-dashboard-course-title">
-            System and Software
-            </p>
-            <Link to="/Kanbas/Courses/1234/Home"> Go </Link>
-          </div>
-        </div>
+            {/* Course 1 */}
+            <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+              <div className="card rounded-3 overflow-hidden">
+                <Link className="wd-dashboard-course-link text-decoration-none text-dark"
+                    to="/Kanbas/Courses/5010/Home">
+                      <img src="/images/programmingParadigm.jpg" alt="" width="100%" height={160}/>
+                      <div className="card-body">
+                        <h5 className="wd-dashboard-course-title card-title">
+                          CS5010 
+                        </h5>
+                        <p className="wd-dashboard-course-title card-text">
+                          Programming Paradigm
+                        </p>
+                        <button className="btn btn-primary"> Go </button>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
 
-        {/* Course 4 */}
-        <div className="wd-dashboard-course">
-          <img src="/images/algorithms.jpg" width={200} />
-          <div>
-            <Link className="wd-dashboard-course-link"
-              to="/Kanbas/Courses/1234/Home">
-              CS5800 Algorithms
-            </Link>
-            <p className="wd-dashboard-course-title">
-            Core Requirements
-            </p>
-            <Link to="/Kanbas/Courses/1234/Home"> Go </Link>
-          </div>
-        </div>
+            {/* Course 2 */}
+            <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+              <div className="card rounded-3 overflow-hidden">
+                <Link className="wd-dashboard-course-link text-decoration-none text-dark"
+                    to="/Kanbas/Courses/5020/Home">
+                      <img src="/images/cybersecurity.jpg" alt="" width="100%" height={160}/>
+                      <div className="card-body">
+                        <h5 className="wd-dashboard-course-title card-title">
+                          CS5020 
+                        </h5>
+                        <p className="wd-dashboard-course-title card-text">
+                          Cybersecurity Principles
+                        </p>
+                        <button className="btn btn-primary"> Go </button>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
 
-        {/* Course 5 */}
-        <div className="wd-dashboard-course">
-          <img src="/images/softwareEngineering.jpg" width={200} />
-          <div>
-            <Link className="wd-dashboard-course-link"
-              to="/Kanbas/Courses/1234/Home">
-              CS5500 Foundations of Software Engineering
-            </Link>
-            <p className="wd-dashboard-course-title">
-              System and Software
-            </p>
-            <Link to="/Kanbas/Courses/1234/Home"> Go </Link>
-          </div>
-        </div>
+            {/* Course 3 */}
+            <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+              <div className="card rounded-3 overflow-hidden">
+                <Link className="wd-dashboard-course-link text-decoration-none text-dark"
+                    to="/Kanbas/Courses/5100/Home">
+                      <img src="/images/foundationsAI.jpg" alt="" width="100%" height={160}/>
+                      <div className="card-body">
+                        <h5 className="wd-dashboard-course-title card-title">
+                          CS5100 
+                        </h5>
+                        <p className="wd-dashboard-course-title card-text">
+                          Artificial Intelligence Foundation
+                        </p>
+                        <button className="btn btn-primary"> Go </button>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
 
-        {/* Course 6 */}
-        <div className="wd-dashboard-course">
-          <img src="/images/networkSecurity.jpg" width={200} />
-          <div>
-            <Link className="wd-dashboard-course-link"
-              to="/Kanbas/Courses/1234/Home">
-              CS6740 Network Security
-            </Link>
-            <p className="wd-dashboard-course-title">
-              Theory and Security
-            </p>
-            <Link to="/Kanbas/Courses/1234/Home"> Go </Link>
-          </div>
-        </div>
+            {/* Course 4 */}
+            <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+              <div className="card rounded-3 overflow-hidden">
+                <Link className="wd-dashboard-course-link text-decoration-none text-dark"
+                    to="/Kanbas/Courses/5130/Home">
+                      <img src="/images/systemsecurity.jpg" alt="" width="100%" height={160}/>
+                      <div className="card-body">
+                        <h5 className="wd-dashboard-course-title card-title">
+                          CS5130 
+                        </h5>
+                        <p className="wd-dashboard-course-title card-text">
+                          Computer System Security
+                        </p>
+                        <button className="btn btn-primary"> Go </button>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
 
-        {/* Course 7 */}
-        <div className="wd-dashboard-course">
-          <img src="/images/cybersecurity.jpg" width={200} />
-          <div>
-            <Link className="wd-dashboard-course-link"
-              to="/Kanbas/Courses/1234/Home">
-              CY5010 Cybersecurity Principles and Practices
-            </Link>
-            <p className="wd-dashboard-course-title">
-              Cybersecurity
-            </p>
-            <Link to="/Kanbas/Courses/1234/Home"> Go </Link>
-          </div>
-        </div>
+            {/* Course 5 */}
+            <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+              <div className="card rounded-3 overflow-hidden">
+                <Link className="wd-dashboard-course-link text-decoration-none text-dark"
+                    to="/Kanbas/Courses/5150/Home">
+                      <img src="/images/gameAI.jpg" alt="" width="100%" height={160}/>
+                      <div className="card-body">
+                        <h5 className="wd-dashboard-course-title card-title">
+                          CS5150 
+                        </h5>
+                        <p className="wd-dashboard-course-title card-text">
+                          Game Artificial Intelligence
+                        </p>
+                        <button className="btn btn-primary"> Go </button>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
 
-        {/* Course 8 */}
-        <div className="wd-dashboard-course">
-          <img src="/images/systemsecurity.jpg" width={200} />
-          <div>
-            <Link className="wd-dashboard-course-link"
-              to="/Kanbas/Courses/1234/Home">
-              CS5130 Computer System Security
-            </Link>
-            <p className="wd-dashboard-course-title">
-              System Security
-            </p>
-            <Link to="/Kanbas/Courses/1234/Home"> Go </Link>
-          </div>
-        </div>
+            {/* Course 6 */}
+            <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+              <div className="card rounded-3 overflow-hidden">
+                <Link className="wd-dashboard-course-link text-decoration-none text-dark"
+                    to="/Kanbas/Courses/5210/Home">
+                      <img src="/images/forensics.jpg" alt="" width="100%" height={160}/>
+                      <div className="card-body">
+                        <h5 className="wd-dashboard-course-title card-title">
+                          CS5210 
+                        </h5>
+                        <p className="wd-dashboard-course-title card-text">
+                          Information System Forensics
+                        </p>
+                        <button className="btn btn-primary"> Go </button>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
 
-        {/* Course 9 */}
-                <div className="wd-dashboard-course">
-          <img src="/images/forensics.jpg" width={200} />
-          <div>
-            <Link className="wd-dashboard-course-link"
-              to="/Kanbas/Courses/1234/Home">
-              CS5210 Information System Forensics
-            </Link>
-            <p className="wd-dashboard-course-title">
-              Forensics
-            </p>
-            <Link to="/Kanbas/Courses/1234/Home"> Go </Link>
-          </div>
-        </div>
+            {/* Course 7 */}
+            <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+              <div className="card rounded-3 overflow-hidden">
+                <Link className="wd-dashboard-course-link text-decoration-none text-dark"
+                    to="/Kanbas/Courses/5500/Home">
+                      <img src="/images/softwareEngineering.jpg" alt="" width="100%" height={160}/>
+                      <div className="card-body">
+                        <h5 className="wd-dashboard-course-title card-title">
+                          CS5500 
+                        </h5>
+                        <p className="wd-dashboard-course-title card-text">
+                          System and Software
+                        </p>
+                        <button className="btn btn-primary"> Go </button>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
 
-                {/* Course 10 */}
-                <div className="wd-dashboard-course">
-          <img src="/images/foundationsAI.jpg" width={200} />
-          <div>
-            <Link className="wd-dashboard-course-link"
-              to="/Kanbas/Courses/1234/Home">
-              CS5100 Foundations of Artificial Intelligence
-            </Link>
-            <p className="wd-dashboard-course-title">
-            Artificial Intelligence
-            </p>
-            <Link to="/Kanbas/Courses/1234/Home"> Go </Link>
-          </div>
-        </div>
+            {/* Course 8 */}
+            <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+              <div className="card rounded-3 overflow-hidden">
+                <Link className="wd-dashboard-course-link text-decoration-none text-dark"
+                    to="/Kanbas/Courses/5600/Home">
+                      <img src="/images/reactjs.jpg" alt="" width="100%" height={160}/>
+                      <div className="card-body">
+                        <h5 className="wd-dashboard-course-title card-title">
+                          CS5600 
+                        </h5>
+                        <p className="wd-dashboard-course-title card-text">
+                          React JS
+                        </p>
+                        <button className="btn btn-primary"> Go </button>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
 
-                {/* Course 11 */}
-                <div className="wd-dashboard-course">
-          <img src="/images/gameAI.jpg" width={200} />
-          <div>
-            <Link className="wd-dashboard-course-link"
-              to="/Kanbas/Courses/1234/Home">
-              CS5150 Game Artificial Intelligence
-            </Link>
-            <p className="wd-dashboard-course-title">
-            Artificial Intelligence
-            </p>
-            <Link to="/Kanbas/Courses/1234/Home"> Go </Link>
-          </div>
-        </div>
+            {/* Course 9 */}
+            <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+              <div className="card rounded-3 overflow-hidden">
+                <Link className="wd-dashboard-course-link text-decoration-none text-dark"
+                    to="/Kanbas/Courses/5610/Home">
+                      <img src="/images/webDevelopment.jpg" alt="" width="100%" height={160}/>
+                      <div className="card-body">
+                        <h5 className="wd-dashboard-course-title card-title">
+                          CS5610 
+                        </h5>
+                        <p className="wd-dashboard-course-title card-text">
+                          Web Development
+                        </p>
+                        <button className="btn btn-primary"> Go </button>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
 
-                {/* Course 12 */}
-                <div className="wd-dashboard-course">
-          <img src="/images/machineLearning.jpg" width={200} />
-          <div>
-            <Link className="wd-dashboard-course-link"
-              to="/Kanbas/Courses/1234/Home">
-              CS6140 Machine Learning
-            </Link>
-            <p className="wd-dashboard-course-title">
-              Machine Learning
-            </p>
-            <Link to="/Kanbas/Courses/1234/Home"> Go </Link>
-          </div>
-        </div>
+            {/* Course 10 */}
+            <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+              <div className="card rounded-3 overflow-hidden">
+                <Link className="wd-dashboard-course-link text-decoration-none text-dark"
+                    to="/Kanbas/Courses/5800/Home">
+                      <img src="/images/algorithms.jpg" alt="" width="100%" height={160}/>
+                      <div className="card-body">
+                        <h5 className="wd-dashboard-course-title card-title">
+                          CS5800 
+                        </h5>
+                        <p className="wd-dashboard-course-title card-text">
+                          Algorithms
+                        </p>
+                        <button className="btn btn-primary"> Go </button>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
 
+            {/* Course 11 */}
+            <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+              <div className="card rounded-3 overflow-hidden">
+                <Link className="wd-dashboard-course-link text-decoration-none text-dark"
+                    to="/Kanbas/Courses/6740/Home">
+                      <img src="/images/networkSecurity.jpg" alt="" width="100%" height={160}/>
+                      <div className="card-body">
+                        <h5 className="wd-dashboard-course-title card-title">
+                          CS6740 
+                        </h5>
+                        <p className="wd-dashboard-course-title card-text">
+                          Network Security
+                        </p>
+                        <button className="btn btn-primary"> Go </button>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
+
+            {/* Course 12 */}
+            <div className="wd-dashboard-course col" style={{ width: "300px" }}>
+              <div className="card rounded-3 overflow-hidden">
+                <Link className="wd-dashboard-course-link text-decoration-none text-dark"
+                    to="/Kanbas/Courses/5150/Home">
+                      <img src="/images/machineLearning.jpg" alt="" width="100%" height={160}/>
+                      <div className="card-body">
+                        <h5 className="wd-dashboard-course-title card-title">
+                          CS6140 
+                        </h5>
+                        <p className="wd-dashboard-course-title card-text">
+                          Machine Learning
+                        </p>
+                        <button className="btn btn-primary"> Go </button>
+                      </div>
+                    </Link>
+                  </div>
+                </div>
+
+      </div>
       </div>
     </div>
   );
