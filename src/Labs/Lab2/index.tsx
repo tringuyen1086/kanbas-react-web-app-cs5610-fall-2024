@@ -12,9 +12,11 @@ import Float from "./Float";
 import GridLayout from "./GridLayout";
 import Flex from "./Flex";
 import ReactIconsSampler from "./ReactIconsSamplers";
+import BootstrapGrids from "./BootstrapGrids";
 
 export default function Lab2() {
   return (
+    <div className="container">    
     <div id="wd-lab2">
       <h2>Lab 2 - Cascading Style Sheets</h2>
       <h3>Styling with the STYLE attribute</h3>
@@ -118,6 +120,10 @@ export default function Lab2() {
       {/* Import and use ReactIconsSampler */}
       <ReactIconsSampler />
 
+      {/* Import and use BootstrapGrids */}
+      <BootstrapGrids />
+
     </div>
+  </div>
   );
 }
