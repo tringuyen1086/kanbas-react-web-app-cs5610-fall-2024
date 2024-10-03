@@ -1,0 +1,55 @@
+
+  /* Search Box - Ensure consistent outer border */
+.input-group {
+    border: 1px solid #ccc;
+    border-radius: 5px; /* Optional for rounded corners */
+}
+
+/* Search Box - Ensure both the search icon and input field have the same background color */
+.search-bg {
+    background-color: white; /* Set this to transparent if needed */
+}
+
+/* Search Box - Remove the right border of the search icon */
+.no-border-right {
+border-right: none;
+}
+
+/* Search Box - Remove the left border of the input field */
+.no-border-left {
+border-left: none;
+}
+
+/* Search Box - Ensure consistent outer border */
+.input-group {
+border: 1px solid #ccc;
+border-radius: 5px; /* Optional for rounded corners */
+}
+
+
+/* Align elements properly */
+.wd-assignment-list-item {
+    display: flex;
+    align-items: center;
+}
+
+/* Control the margin for the checkmarks and three dots */
+.LessonControlButtons {
+    margin-left: auto;
+}
+
+.wd-assignment-link {
+    font-weight: bold;
+}
+
+/* Add padding for proper spacing */
+.flex-grow-1 p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+
+/* Custom class for slightly darker background */
+.bg-light-darker {
+    background-color: #e2dadc3e; /* Slightly darker than Bootstrap's bg-light */
+}

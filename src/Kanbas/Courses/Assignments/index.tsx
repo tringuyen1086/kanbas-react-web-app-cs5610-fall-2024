@@ -5,25 +5,24 @@ import { IoEllipsisVertical } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import LessonControlButtons from "../Modules/LessonControlButtons";
 import { BsSearch } from "react-icons/bs";
-import "./Search.css";
-
+import { MdEditNote } from "react-icons/md";
+import "./Assignments.css";
 
 export default function Assignments() {
-    return (
-      <div id="wd-assignments">
+  return (
+    <div id="wd-assignments">
       {/* Container for search and buttons */}
       <div className="row align-items-center mb-3">
-        
-        {/* Search Box - Full border around the icon and input */}
+        {/* Search Box */}
         <div className="col-12 col-md-6">
-          <div className="input-group">
-            <span className="input-group-text no-border-right search-bg">
+          <div className="input-group search-box">
+            <span className="input-group-text no-border-right search-bg search-icon">
               <BsSearch />
             </span>
             <input
               id="wd-search-assignment"
               type="text"
-              className="form-control no-border-left search-bg"
+              className="form-control no-border-left search-input"
               placeholder="Search..."
               aria-label="Search"
             />
@@ -32,77 +31,94 @@ export default function Assignments() {
 
         {/* Buttons */}
         <div className="col-12 col-md-6 d-flex justify-content-end align-items-center">
-          <button
-            id="wd-add-assignment-group"
-            className="btn btn-lg btn-secondary me-2"
-          >
+          <button id="wd-add-assignment-group" className="btn btn-lg btn-light bg-light-darker me-2 border border-1">
             <FaPlus className="me-2" />
             Group
           </button>
 
-          <button
-            id="wd-add-assignment"
-            className="btn btn-lg btn-danger"
-          >
+          <button id="wd-add-assignment" className="btn btn-lg btn-danger">
             <FaPlus className="me-2" />
             Assignment
           </button>
         </div>
       </div>
 
-          <br/><br/><br/>
+      {/* Assignment list header */}
+      <div className="d-flex align-items-center justify-content-between bg-light-darker p-3 ps-2 border border-1">
+        <div className="d-flex align-items-center">
+          <BsGripVertical className="me-2 fs-3" />
+          <div className="dropdown me-2">
+            <FaCaretDown />
+            <span className="fw-bold">ASSIGNMENTS</span>
+          </div>
+        </div>
 
-          <ul id="wd-modules" className="list-group rounded-0">
-            <li className="wd-assignments-title list-group-item p-0 fs-5 border-gray">
-              <div className="wd-title p-3 ps-2 bg-secondary">   
-                <BsGripVertical className="me-2 fs-3" />
-                <div className="dropdown d-inline me-1 float-left">
-                <FaCaretDown />
-                  ASSIGNMENTS
-                </div>
-                
-                <button id="wd-percentage-assignment" 
-                  className="btn btn-md btn-outline-secondary disabled float-right position-relative me-1">
-                  40% of Total
-                </button>
-                <FaPlus/>
-                <IoEllipsisVertical className="fs-4" />
-              </div>
-              </li>
+        <div className="d-flex align-items-center">
+          <button id="wd-percentage-assignment" className="btn btn-md btn-outline-dark me-2 rounded-pill">
+            40% of Total
+          </button>
+          <FaPlus className="me-2" />
+          <IoEllipsisVertical className="fs-4" />
+        </div>
+      </div>
 
-          <ul id="wd-assignment-list" className="list-group rounded-0">
-            <li className="wd-assignment-list-item list-group-item p-3 ps-2">
+      {/* Assignment List Container with Green Left Border*/}
+      <div className="border-start border-5 border-success">
+        <ul id="wd-assignment-list" className="list-group rounded-0">
+          <li className="wd-assignment-list-item list-group-item p-3 ps-2 d-flex align-items-center">
+            {/* Grip Icon and Assignment Title */}
             <BsGripVertical className="me-2 fs-3" />
-              <Link className="wd-assignment-link text-decoration-none text-dark"
-                to="/Kanbas/Courses/1234/Assignments/123">
+            <MdEditNote className="me-2 fs-4 text-success" />
+            <div className="flex-grow-1">
+              <Link className="wd-assignment-link text-decoration-none text-dark" to="/Kanbas/Courses/1234/Assignments/123">
                 A1
               </Link>
-              <p> Multiple Modules | <strong>Not available until</strong> May 6 at 12:00am | <strong> Due</strong> May 13 at 11:59pm | 100pts</p>
-              <LessonControlButtons/> 
-            </li>
-
-          <li className="wd-assignment-list-item list-group-item p-3 ps-2">
-          <BsGripVertical className="me-2 fs-3" />
-            <Link className="wd-assignment-link text-decoration-none text-dark"
-              to="/Kanbas/Courses/1234/Assignments/123">
-              A2
-            </Link>
-            <p> Multiple Modules | <strong>Not available until</strong> May 13 at 12:00am | <strong> Due</strong> May 20 at 11:59pm | 100pts</p>
-          
-            <LessonControlButtons/> 
+              <p>
+                <span className="text-danger">Multiple Modules</span> | 
+                <strong> Not available until</strong> May 6 at 12:00am | <br />
+                <strong> Due</strong> May 13 at 11:59pm | 100pts
+              </p>
+            </div>
+            {/* Checkmark and 3 dots */}
+            <LessonControlButtons />
           </li>
 
-          <li className="wd-assignment-list-item list-group-item p-3 ps-2">
-          <BsGripVertical className="me-2 fs-3" />
-            <Link className="wd-assignment-link text-decoration-none text-dark"
-              to="/Kanbas/Courses/1234/Assignments/123">
-              A3
-            </Link>
-            <p className="wd-assignment-description"><span>Multiple Modules</span> | <strong>Not available until</strong> May 20 at 12:00am | <strong> Due</strong> May 27 at 11:59pm | 100pts</p>
-            <LessonControlButtons/> 
+          <li className="wd-assignment-list-item list-group-item p-3 ps-2 d-flex align-items-center">
+            {/* Grip Icon and Assignment Title */}
+            <BsGripVertical className="me-2 fs-3" />
+            <MdEditNote className="me-2 fs-4 text-success" />
+            <div className="flex-grow-1">
+              <Link className="wd-assignment-link text-decoration-none text-dark" to="/Kanbas/Courses/1234/Assignments/124">
+                A2
+              </Link>
+              <p>
+                <span className="text-danger">Multiple Modules</span> | 
+                <strong> Not available until</strong> May 6 at 12:00am | <br />
+                <strong> Due</strong> May 13 at 11:59pm | 100pts
+              </p>
+            </div>
+            {/* Checkmark and 3 dots */}
+            <LessonControlButtons />
           </li>
-      
-          </ul>
+
+          <li className="wd-assignment-list-item list-group-item p-3 ps-2 d-flex align-items-center">
+            {/* Grip Icon and Assignment Title */}
+            <BsGripVertical className="me-2 fs-3" />
+            <MdEditNote className="me-2 fs-4 text-success" />
+            <div className="flex-grow-1">
+              <Link className="wd-assignment-link text-decoration-none text-dark" to="/Kanbas/Courses/1234/Assignments/125">
+                A3
+              </Link>
+              <p>
+                <span className="text-danger">Multiple Modules</span> | 
+                <strong> Not available until</strong> May 6 at 12:00am | <br />
+                <strong> Due</strong> May 13 at 11:59pm | 100pts
+              </p>
+            </div>
+            <LessonControlButtons />
+          </li>
         </ul>
       </div>
-  );}
+    </div>
+  );
+}
