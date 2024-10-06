@@ -11,15 +11,17 @@ export default function Labs(){
             <h1>Welcome to Web Dev</h1>
             <h2>Tri Nguyen</h2>
             <h2>CS5610 Section 20595</h2>
-            <h2>Labs</h2>
-            <TOC />
-            <Routes>
-                <Route path="/" element={<Navigate to="Lab1" />} />
-                <Route path="Lab1" element={<Lab1 />} />
-                <Route path="Lab2" element={<Lab2 />} />
-                <Route path="Lab3" element={<Lab3 />} />
-            </Routes>
-        </div>
+            <div className="p-3">
+                <h1>Labs</h1>
+                <TOC />
+                <Routes>
+                    <Route path="/" element={<Navigate to="Lab1" />} />
+                    <Route path="Lab1" element={<Lab1 />} />
+                    <Route path="Lab2" element={<Lab2 />} />
+                    <Route path="Lab3/*" element={<Lab3 />} />
+                </Routes>
+            </div>
 
+        </div>
     )
 }
