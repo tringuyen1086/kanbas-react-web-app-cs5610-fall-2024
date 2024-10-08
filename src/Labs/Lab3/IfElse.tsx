@@ -6,7 +6,7 @@ export default function IfElse(){
         {/* Render true1 paragraph only if true1 is true */}
         { true1 && <p>true1</p> }
         {/* Use a ternary operator to render one of two options based on the value of false1 */}
-        { !false1 ? <p>!false1</p> : <p>false1</p> } <hr/>
+        { !false1 ? <p>!false1</p> : <p>false1</p> } <hr />
         </div>
     );
 }
