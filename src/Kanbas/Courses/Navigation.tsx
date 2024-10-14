@@ -1,3 +1,36 @@
+import { Link, useParams, useLocation } from "react-router-dom";
+
+const links = ["Home", "Modules", "Piazza", "Zoom", "Assignments", "Quizzes", "Grades", "People"];
+
+export default function CoursesNavigation() {
+  const { cid } = useParams(); // Get the course ID from the URL
+  const location = useLocation(); // Get the current path
+
+  return (
+    <div id="wd-courses-navigation" className="wd list-group fs-5 rounded-0">
+      {links.map((link) => {
+        const linkPath = `/Kanbas/Courses/${cid}/${link}`; // Construct the link path
+
+        const isActive = location.pathname === linkPath; // Check if the link is active
+
+        return (
+          <Link
+            key={link}
+            to={linkPath}
+            id={`wd-course-${link.toLowerCase()}-link`}
+            className={`list-group-item border border-0 ${
+              isActive ? "active" : "text-danger"
+            }`}
+          >
+            {link}
+          </Link>
+        );
+      })}
+    </div>
+  );
+}
+
+/* 
 import { Link } from "react-router-dom";
 
 
@@ -29,4 +62,5 @@ export default function CoursesNavigation() {
       <Link to="/Kanbas/Courses/:cid/People" id="wd-course-people-link"
         className="list-group-item text-danger border border-0">People</Link>
     </div>
-);}
+);} 
+*/
