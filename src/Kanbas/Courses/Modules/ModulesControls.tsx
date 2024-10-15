@@ -43,13 +43,15 @@ return (
             </ul>        
         </div>
       {/* Implement the View Progress and Collapse All buttons with IDs wd-view-progress and wd-collapse-all */}
+        <button id="wd-view-progress" className="btn btn-lg btn-secondary float-end position-relative me-2" 
+        style={{ bottom: "1px" }}>
+            View Progress</button>
+
         <button id="wd-collapse-all" className="btn btn-lg btn-secondary float-end position-relative me-2" 
         style={{ bottom: "1px" }}>
             Collapse All</button>
 
-        <button id="wd-view-progress" className="btn btn-lg btn-secondary float-end position-relative me-2" 
-        style={{ bottom: "1px" }}>
-            View Progress</button>
+
     </div>
 )
 ;}

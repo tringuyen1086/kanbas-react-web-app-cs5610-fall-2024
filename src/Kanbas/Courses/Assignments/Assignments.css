@@ -1,18 +1,18 @@
-
   /* Search Box - Ensure consistent outer border */
 .input-group {
     border: 1px solid #ccc;
-    border-radius: 5px; /* Optional for rounded corners */
+    border-radius: 1px; /* Optional for rounded corners */
 }
 
 /* Search Box - Ensure both the search icon and input field have the same background color */
 .search-bg {
-    background-color: white; /* Set this to transparent if needed */
+    background-color: rgb(255, 255, 255); /* Set this to transparent if needed */
 }
 
 /* Search Box - Remove the right border of the search icon */
 .no-border-right {
 border-right: none;
+border-style: none
 }
 
 /* Search Box - Remove the left border of the input field */
@@ -52,4 +52,42 @@ border-radius: 5px; /* Optional for rounded corners */
 /* Custom class for slightly darker background */
 .bg-light-darker {
     background-color: #e2dadc3e; /* Slightly darker than Bootstrap's bg-light */
+}
+
+/* Ensure consistent width across inputs */
+.width {
+    width: 100%; /* Makes the input span full width */
+    max-width: none; /* Removes any default max-widths */
+}
+
+
+.calendar-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-left: none;
+    border-radius: 0 0.375rem 0.375rem 0;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+.calendar-icon {
+    font-size: 1.5rem;
+}
+
+.form-control {
+    border-style: none;
+    border: none;
+}
+
+.calendar-icon-wrapper {
+    border-style: none;
+    border: none;
+}
+
+.form-control {
+    border-top-right-radius: 2;
+    border-bottom-right-radius: 2;
 }
