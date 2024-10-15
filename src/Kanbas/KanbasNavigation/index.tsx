@@ -39,8 +39,6 @@ export default function KanbasNavigation() {
           <br />
           {link.label}
         </Link>
-      ))}
-
-        
+      ))}     
     </div>
 );}
