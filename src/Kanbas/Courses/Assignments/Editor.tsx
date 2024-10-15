@@ -59,6 +59,16 @@ export default function AssignmentEditor() {
             The assignment is <span className="text-danger">available online</span><br />
             Submit a link to the landing page of your Web application running on Netlify.
           </p>
+          <p>
+            The landing page should include the following:
+            <ul>
+              <li>Your full name and section</li>
+              <li>Links to each of the lab assignments</li>
+              <li>Link to the Kanbas application</li>
+              <li>Links to all relevant source code repositories</li>
+            </ul>
+          </p>
+          <p>The Kanbas application should include a link to navigate back to the landing page.</p>
         </div>
       </div>
 
@@ -169,7 +179,7 @@ export default function AssignmentEditor() {
                     timeFormat="hh:mm A"
                     inputProps={{ 
                       ref: dueDateRef, 
-                      className: 'form-control',
+                      className: 'form-control-assign',
                     }}
                   />
                   <span className="calendar-icon-wrapper" style={{ cursor: "pointer" }}>
@@ -202,7 +212,7 @@ export default function AssignmentEditor() {
                   timeFormat="hh:mm A"
                   inputProps={{ 
                     ref: availableFromRef, 
-                    className: 'form-control',
+                    className: 'form-control-assign',
                   }}
                 />
                 <span className="calendar-icon-wrapper" style={{ cursor: "pointer" }}>
@@ -233,7 +243,7 @@ export default function AssignmentEditor() {
                   timeFormat="hh:mm A"
                   inputProps={{ 
                     ref: availableUntilRef,
-                    className: 'form-control'
+                    className: 'form-control-assign'
                   }}
                 />
                 <span className="calendar-icon-wrapper" style={{ cursor: "pointer" }}>
