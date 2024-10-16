@@ -13,7 +13,7 @@ export default function Modules() {
       <ModulesControls /><br /><br /><br /><br />
       <ul id="wd-modules" className="list-group rounded-0">
         {modules
-          .filter((module: any) => module.course === cid)
+          .filter((module: any) => module.course.toLowerCase() === cid?.toLowerCase())
           .map((module: any) => (
           <li className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
             {/* Use Flexbox to align content horizontally */}
