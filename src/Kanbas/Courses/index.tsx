@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes, useParams, useLocation } from "react-router";
-import { courses } from "../Database";
+//import { courses } from "../Database";
 import CoursesNavigation from "./Navigation";
 import Modules from "./Modules";
 import Home from "./Home";
@@ -8,9 +8,9 @@ import AssignmentEditor from "./Assignments/Editor";
 import PeopleTable from "./People/Table";
 import { FaAlignJustify } from "react-icons/fa";
 
-export default function Courses() {
+export default function Courses({ courses }: { courses: any[]; }) {
     const { cid } = useParams(); // Get course ID from URL
-    const course = courses.find((course) => course._id === cid); // Find course by ID
+    const course = courses.find((course: any) => course._id === cid); // Find course by ID
     const { pathname } = useLocation(); // Get current path
 
     // Extract section name from the path for breadcrumbs
