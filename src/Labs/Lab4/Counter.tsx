@@ -11,7 +11,7 @@ export default function Counter() {
                     className="btn btn-success mx-1">Up</button>
             <button onClick={() => setCount(count - 1)}
                     id="wd-counter-down-click"
-                    className="btn btn-danger mx-1">Down</button>
+                    className="btn btn-danger">Down</button>
             <hr/>
         </div>
     );
