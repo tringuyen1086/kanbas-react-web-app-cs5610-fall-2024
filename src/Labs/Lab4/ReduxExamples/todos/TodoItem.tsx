@@ -2,7 +2,8 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { deleteTodo, setTodo } from "./todosReducer";
 
-export default function TodoItem({ todo }) {
+// Define the type for the todo prop inline
+export default function TodoItem({ todo }: { todo: { id: number; title: string } }) {
     const dispatch = useDispatch();
     return (
     <li key={todo.id} className="list-group-item d-flex align-items-center">
