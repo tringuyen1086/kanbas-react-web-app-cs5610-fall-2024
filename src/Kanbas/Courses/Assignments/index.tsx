@@ -5,6 +5,7 @@ import { MdEditNote } from "react-icons/md";
 import { FaPlus, FaCaretDown } from "react-icons/fa";
 import { IoEllipsisVertical } from "react-icons/io5";
 import LessonControlButtons from "../Modules/LessonControlButtons";
+import { useSelector } from "react-redux";
 import "./Assignments.css";
 
 export default function Assignments() {
@@ -12,6 +13,9 @@ export default function Assignments() {
   const assignments = db.assignments.filter(
     (assignment) => assignment.course === cid
   );
+
+  // Access the current user's role from Redux
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
 
   return (
     <div id="wd-assignments">
@@ -32,19 +36,23 @@ export default function Assignments() {
         </div>
 
         <div className="col-12 col-md-6 d-flex justify-content-end align-items-center">
-          <button
-            id="wd-add-assignment-group"
-            className="btn btn-lg btn-light bg-light-darker me-2 border"
-          >
-            <FaPlus className="me-2" />
-            Group
-          </button>
-          <button id="wd-add-assignment" className="btn btn-lg btn-danger">
-            <FaPlus className="me-2" />
-            Assignment
-          </button>
-        </div>
+        {currentUser?.role === "FACULTY" && (
+          <>
+            <button
+              id="wd-add-assignment-group"
+              className="btn btn-lg btn-light bg-light-darker me-2 border"
+            >
+              <FaPlus className="me-2" />
+              Group
+            </button>
+            <button id="wd-add-assignment" className="btn btn-lg btn-danger">
+              <FaPlus className="me-2" />
+              Assignment
+            </button>
+          </>
+        )}
       </div>
+    </div>
 
       <div className="d-flex align-items-center justify-content-between bg-light-darker p-3 ps-2 border">
         <div className="d-flex align-items-center">
@@ -77,14 +85,22 @@ export default function Assignments() {
                 className="wd-assignment-list-item list-group-item p-3 ps-2 d-flex align-items-center"
               >
                 <BsGripVertical className="me-2 fs-3" />
+                
+                {currentUser?.role === "FACULTY" && (
                 <MdEditNote className="me-2 fs-4 text-success" />
+                )}
+                
                 <div className="flex-grow-1">
+                  {currentUser?.role === "FACULTY" ? (
                   <Link
                     className="wd-assignment-link text-decoration-none text-dark"
                     to={`/Kanbas/Courses/${cid}/Assignments/${assignment._id}`}
                   >
                     {assignment.title}
                   </Link>
+                  ) : (
+                    <span className="text-dark fw-bold">{assignment.title}</span>
+                  )}
                   <p>
                     <span className="text-danger">Multiple Modules</span> |{" "}
                     <strong> Not available until</strong> May 6 at 12:00am |{" "}
