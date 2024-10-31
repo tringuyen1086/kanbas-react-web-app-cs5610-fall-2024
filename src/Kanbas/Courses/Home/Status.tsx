@@ -45,20 +45,25 @@ export default function CourseStatus() {
 
       <button className="btn btn-lg btn-secondary w-100 mt-1 text-start">
         <LiaFileImportSolid className="me-2 fs-5" /> Import from Commons </button>
-        </>
-      )}
+
 
         <button className="btn btn-lg btn-secondary w-100 mt-1 text-start">
         <FaHome className="me-2 fs-5" /> Choose Home Page </button>
+        </>
+        )}
 
       <button className="btn btn-lg btn-secondary w-100 mt-1 text-start ">
         <IoLogoRss className="me-2 fs-5" /> View Course Stream </button>
 
+        {currentUser?.role === "FACULTY" && (
+        <>
         <button className="btn btn-lg btn-secondary w-100 mt-1 text-start">
         <TfiAnnouncement className="me-2 fs-5" /> New Announcement </button>
 
       <button className="btn btn-lg btn-secondary w-100 mt-1 text-start">
         <ImStatsBars className="me-2 fs-5" /> New Analytics </button>
+        </>
+        )}
 
         <button className="btn btn-lg btn-secondary w-100 mt-1 text-start">
         <IoNotifications className="me-2 fs-5" /> View Course Notifications </button>     
