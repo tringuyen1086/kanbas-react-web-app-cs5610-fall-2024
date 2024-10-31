@@ -10,6 +10,7 @@ export default function Dashboard(
     addNewCourse,
     deleteCourse, 
     updateCourse,
+    currentUserRole,
   }: {
     courses: any[]; 
     course: any; 
@@ -17,8 +18,9 @@ export default function Dashboard(
     setCourses: (course: any) => void;
     addNewCourse: () => void; 
     deleteCourse: (course: any) => void;
-    updateCourse: () => void; })
-    {
+    updateCourse: () => void; 
+    currentUserRole: any;
+  }) {
   
   const { currentUser } = useSelector((state: any) => state.accountReducer);
   const { enrollments } = db;
