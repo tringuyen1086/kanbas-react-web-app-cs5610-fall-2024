@@ -7,7 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./styles.css";
 import * as db from "./Database";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import store from "./store";
 import { Provider } from "react-redux";
 import ProtectedRoute from "./Account/ProtectedRoute";
@@ -45,31 +45,37 @@ export default function Kanbas() {
 };
     
     return (
-        <div id="wd-kanbas">
-            <KanbasNavigation />
-            <div className="wd-main-content-offset p-3">
-                <Routes>
-                    <Route path="/" element={<Navigate to="Account" />} />
-                    <Route path="/Account/*" element={<Account />} />
-                    <Route path="/Dashboard" 
-                            element={<ProtectedRoute>
-                                        <Dashboard
-                                            courses={courses}
-                                            course={course}
-                                            setCourses={setCourses}
-                                            setCourse={setCourse}
-                                            addNewCourse={addNewCourse}
-                                            deleteCourse={deleteCourse}
-                                            updateCourse={updateCourse} />
-                                    </ProtectedRoute> } />                
-                    <Route path="/Courses/:cid/*" 
-                            element={ <ProtectedRoute> 
-                                        <Courses courses={courses} /> 
-                                    </ProtectedRoute>} />
-                    <Route path="/Calendar" element={<h1>Calendar</h1>} />
-                    <Route path="/Inbox" element={<h1>Inbox</h1>} />
-                </Routes>
+        <Provider store={store}>
+            <div id="wd-kanbas">
+                <KanbasNavigation />
+                <div className="wd-main-content-offset p-3">
+                    <Routes>
+                        <Route path="/" element={<Navigate to="Account" />} />
+                        <Route path="/Account/*" element={<Account />} />
+                        <Route 
+                            path="/Dashboard" 
+                            element={
+                                <ProtectedRoute>
+                                    <Dashboard
+                                        courses={courses}
+                                        course={course}
+                                        setCourses={setCourses}
+                                        setCourse={setCourse}
+                                        addNewCourse={addNewCourse}
+                                        deleteCourse={deleteCourse}
+                                        updateCourse={updateCourse} />
+                                </ProtectedRoute> } />                
+                        <Route 
+                            path="/Courses/:cid/*" 
+                            element={ 
+                                <ProtectedRoute> 
+                                    <Courses courses={courses} /> 
+                                </ProtectedRoute>} />
+                        <Route path="/Calendar" element={<h1>Calendar</h1>} />
+                        <Route path="/Inbox" element={<h1>Inbox</h1>} />
+                    </Routes>
+                </div>
             </div>
-        </div>
+        </Provider>
     )
 }

@@ -38,7 +38,7 @@ export default function ModuleEditor({
                         type="button" 
                         className="btn btn-secondary" 
                         data-bs-dismiss="modal">
-                        Cancel 
+                        Cancel{" "} 
                     </button>
                     <button 
                         onClick={addModule} 
