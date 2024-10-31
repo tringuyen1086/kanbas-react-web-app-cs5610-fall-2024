@@ -23,27 +23,35 @@ export default function Modules() {
     setModuleName("");
   };
 
+  const deleteModule = (moduleId: string) => {
+    setModules(modules.filter((m) => m._id !== moduleId));
+  };
+
+
   return (
     <div>
       <ModulesControls 
         setModuleName={setModuleName} 
         moduleName={moduleName} 
         addModule={addModule}/>
-        <br /><br /><br /><br />
-      <ul id="wd-modules" className="list-group rounded-0">
+        <br /><br />
+      <ul id="wd-modules" className="mt-2 list-group rounded-0">
         {modules
           .filter((module: any) => module.course.toLowerCase() === cid?.toLowerCase())
           .map((module: any) => (
-          <li className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
+          <li 
+            key={module._id}
+            className="wd-module list-group-item p-0 mb-5 fs-5 border-gray">
             {/* Use Flexbox to align content horizontally */}
             <div className="wd-title p-3 ps-2 bg-secondary text-black d-flex align-items-center">
               <BsGripVertical className="me-2 fs-3" />
-
               {/* Module name should take up available space */}
               <span className="flex-grow-1 fw-bold">{module.name}</span>
               
               {/* Control buttons aligned to the right */}
-              <ModuleControlButtons />
+              <ModuleControlButtons 
+                moduleId={module._id}
+                deleteModule={deleteModule}/>
             </div>
             {module.lessons && (
               <ul className="wd-lessons list-group rounded-0">

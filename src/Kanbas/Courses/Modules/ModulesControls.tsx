@@ -2,6 +2,7 @@ import { FaPlus } from "react-icons/fa6";
 import GreenCheckmark from "./GreenCheckmark";
 import { MdDoNotDisturbAlt } from "react-icons/md";
 import ModuleEditor from "./ModuleEditor";
+
 export default function ModulesControls(
     { moduleName, setModuleName, addModule }:
     { moduleName: string; setModuleName:
@@ -13,7 +14,7 @@ return (
             className="btn btn-lg btn-danger me-1 float-end"
             data-bs-toggle="modal" 
             data-bs-target="#wd-add-module-dialog" >
-                
+
             <FaPlus className="position-relative me-2" style={{ bottom: "1px" }} />
             Module</button>
 
