@@ -15,7 +15,7 @@ export default function CourseStatus() {
         <h2>Course Status</h2>
         <div className="d-flex">
           <div className="w-50 pe-1">
-            <button className="btn btn-lg btn-secondary w-100 text-nowrap ">
+            <button className="btn btn-lg btn-secondary w-100 text-nowrap">
               <MdDoNotDisturbAlt className="me-2 fs-5" /> Unpublish </button>
           </div>
 
@@ -34,7 +34,7 @@ export default function CourseStatus() {
           <button className="btn btn-lg btn-secondary w-100 mt-1 text-start">
           <FaHome className="me-2 fs-5" /> Choose Home Page </button>
 
-        <button className="btn btn-lg btn-secondary w-100 mt-1 text-start">
+        <button className="btn btn-lg btn-secondary w-100 mt-1 text-start ">
           <IoLogoRss className="me-2 fs-5" /> View Course Stream </button>
 
           <button className="btn btn-lg btn-secondary w-100 mt-1 text-start">
