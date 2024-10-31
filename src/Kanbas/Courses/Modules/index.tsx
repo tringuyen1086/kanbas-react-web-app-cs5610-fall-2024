@@ -21,8 +21,6 @@ export default function Modules() {
 
   return (
     <div className="wd-modules">
-      {/* Only display ModulesControls if the user is FACULTY */}
-      {currentUser?.role === "FACULTY" && (
         <ModulesControls 
           moduleName={moduleName} 
           setModuleName={setModuleName} 
@@ -32,7 +30,6 @@ export default function Modules() {
             setModuleName("");
           }} 
         />
-      )}
       <br /><br />
         
       <ul id="wd-modules" className="mt-2 list-group rounded-0">
