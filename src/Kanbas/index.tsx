@@ -12,7 +12,7 @@ import { useState } from "react";
 export default function Kanbas() {
     const [courses, setCourses] = useState<any[]>(db.courses);
     const [course, setCourse] = useState<any>({
-        _id: "0", 
+        _id: "1234", 
         name: "New Course", 
         number: "New Number",
         startDate: "2023-09-10", 
@@ -25,7 +25,7 @@ export default function Kanbas() {
         setCourses([...courses, { ...course, ...newCourse }]);
     };
 
-    const deleteCourse = (courseId: string) => {
+    const deleteCourse = (courseId: any) => {
         setCourses(courses.filter((course) => course._id !== courseId));
     };
 
