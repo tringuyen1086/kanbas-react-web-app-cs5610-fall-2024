@@ -7,10 +7,11 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./styles.css";
 import * as db from "./Database";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import store from "./store";
 import { Provider } from "react-redux";
 import ProtectedRoute from "./Account/ProtectedRoute";
+import { useSelector } from "react-redux";
 
 export default function Kanbas() {
     const [courses, setCourses] = useState<any[]>(db.courses);
@@ -23,6 +24,10 @@ export default function Kanbas() {
         image: "/images/reactjs.jpg", 
         description: "New Description"
     });
+
+    const { currentUser } = useSelector((state: any) => state.accountReducer);
+    const currentUserRole = currentUser?.role;
+
     const addNewCourse = () => {
         const newCourse = { ...course, _id: new Date().getTime().toString() };
         setCourses([...courses, { ...course, ...newCourse }]);
@@ -63,7 +68,8 @@ export default function Kanbas() {
                                         setCourse={setCourse}
                                         addNewCourse={addNewCourse}
                                         deleteCourse={deleteCourse}
-                                        updateCourse={updateCourse} />
+                                        updateCourse={updateCourse} 
+                                        currentUserRole={currentUserRole}/> {/* Pass the role to Dashboard */}
                                 </ProtectedRoute> } />                
                         <Route 
                             path="/Courses/:cid/*" 
