@@ -11,24 +11,30 @@ import AssignmentEditor from './Kanbas/Courses/Assignments/Editor';
 import Modules from './Kanbas/Courses/Modules';
 import PeopleTable from './Kanbas/Courses/People/Table';
 
+import store from "./Kanbas/store";
+import { Provider } from "react-redux";
+
 function App() {
   return (
     <div>
       <HashRouter>
-        <div>
-          <Routes>
-            <Route path="/" element={<Navigate to="Labs" />} />             {/* default landing page  */}
-            <Route path="/Labs/*" element={<Labs />} />
-            <Route path="/Github/*" element={<Github />} />
-            <Route path="/Kanbas/*" element={<Kanbas />}>
-              {/* Nested Routes for Kanbas */}
-              <Route path="Courses/:cid/Assignments" element={<Assignments />} />
-              <Route path="Courses/:cid/Assignments/:assignmentId" element={<AssignmentEditor />} />
-              <Route path="Courses/:cid/Modules" element={<Modules />} />
-              <Route path="Courses/:cid/People" element={<PeopleTable />} />
-            </Route>
-          </Routes>
-        </div>
+      <Provider store={store}>
+
+          <div>
+            <Routes>
+              <Route path="/" element={<Navigate to="Labs" />} />             {/* default landing page  */}
+              <Route path="/Labs/*" element={<Labs />} />
+              <Route path="/Github/*" element={<Github />} />
+              <Route path="/Kanbas/*" element={<Kanbas />}>
+                {/* Nested Routes for Kanbas */}
+                <Route path="Courses/:cid/Assignments" element={<Assignments />} />
+                <Route path="Courses/:cid/Assignments/:assignmentId" element={<AssignmentEditor />} />
+                <Route path="Courses/:cid/Modules" element={<Modules />} />
+                <Route path="Courses/:cid/People" element={<PeopleTable />} />
+              </Route>
+            </Routes>
+          </div>
+        </Provider>
       </HashRouter>
     </div>
   );

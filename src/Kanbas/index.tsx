@@ -8,6 +8,8 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./styles.css";
 import * as db from "./Database";
 import { useState } from "react";
+import store from "./store";
+import { Provider } from "react-redux";
 
 export default function Kanbas() {
     const [courses, setCourses] = useState<any[]>(db.courses);
@@ -64,6 +66,6 @@ export default function Kanbas() {
                     <Route path="/Inbox" element={<h1>Inbox</h1>} />
                 </Routes>
             </div>
-    </div>
+        </div>
     )
 }
