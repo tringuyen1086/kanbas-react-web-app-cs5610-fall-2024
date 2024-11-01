@@ -146,7 +146,7 @@ export default function Assignments() {
                                         <strong> Not available until</strong>{" "}
                                         {formatDateTime(assignment.availableFrom, "May 6, 12:00AM ")} |{" "}
                                         <br />
-                                        <strong> Due</strong> {formatDateTime(assignment.dueDate, "May 13, 11:59PM ")} 
+                                        <strong> Due</strong> {formatDateTime(assignment.dueDate, "May 13, 11:59PM ")}{" "} 
                                         | {assignment.points ? assignment.points : "100"} pts
                                     </p>
                                 </div>
