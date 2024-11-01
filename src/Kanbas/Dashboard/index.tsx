@@ -1,4 +1,23 @@
-// work great for Staff (all courses shown initially, not the enrolled courses only) but no course shown initially for student
+/* 
+ * Enrollment now meets all requirements 
+ * 1. If the current user's role is Student, 
+        they have a blue Enrollments button at the top right of the screen.
+ * 2. Clicking the Enrollments button displays all the the courses.
+ * 3. Clicking it again only shows the courses a student is enrolled in.
+ * 4. Courses that the student is enrolled in should provide a red Unenroll button
+ * 5. Courses that the student is not enrolled in should provide a green Enroll button.
+ * 6. When a student click's the Unenroll or Enroll button, 
+        the enrollment status must actually change 
+        and the buttons should toggle to reflect the new state.
+ * 7. If a student signs out, and then signs in again, 
+        the enrollment choices should still persist.
+ * 8. If a user refreshes or reloads the page, the new enrollments are lost.
+ * 9. Protect the route to a course 
+        so that only students enrolled in that course can navigate to the course, 
+        and stay in the Dashboard screen otherwise.
+ * 10. All enrollment related buttons should only be visible to students.
+
+*/
 
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -8,7 +27,7 @@ import { toggleView, enrollCourse, unenrollCourse, setInitialEnrolledCourses }
 import { User } from "../types";
 import * as db from "../Database";
 import { Button } from "react-bootstrap";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 interface DashboardProps {
     courses: any[];
@@ -32,26 +51,22 @@ export default function Dashboard({
     currentUserRole,
 }: DashboardProps) {
     const dispatch = useDispatch();
-    const currentUser 
-        = useSelector((state: RootState) => state.accountReducer.currentUser) as User | null;
-    const showAllCourses 
-        = useSelector((state: RootState) => state.enrollments.showAllCourses);
-    const enrolledCourses 
-        = useSelector((state: RootState) => state.enrollments.enrolledCourses);
-
-    //const [filteredCourses, setFilteredCourses] = useState<any[]>([]);
+    const currentUser = useSelector((state: RootState) => state.accountReducer.currentUser) as User | null;
+    const showAllCourses = useSelector((state: RootState) => state.enrollments.showAllCourses);
+    const enrolledCourses = useSelector((state: RootState) => state.enrollments.enrolledCourses);
 
     useEffect(() => {
         if (currentUser) {
-            // Fetch enrolled courses for the current user and initialize Redux state
             const enrolledCoursesIds = db.enrollments
                 .filter((enrollment) => enrollment.user === currentUser._id)
                 .map((enrollment) => enrollment.course);
 
-            dispatch(setInitialEnrolledCourses(enrolledCoursesIds));
-            
+            // Initialize enrolled courses from database only if not already populated from local storage
+            if (enrolledCourses.length === 0) {
+                dispatch(setInitialEnrolledCourses(enrolledCoursesIds));
+            }
         }
-    }, [currentUser, dispatch]);
+    }, [currentUser, dispatch, enrolledCourses.length]);
 
     const handleEnrollToggle = (courseId: string, isEnrolled: boolean) => {
         if (isEnrolled) {
@@ -128,7 +143,6 @@ export default function Dashboard({
                 </Button>
             )}
 
-
             <h2 id="wd-dashboard-published">
                 {showAllCourses || currentUserRole === "FACULTY" 
                     ? "All Courses" : "My Courses"} ({visibleCourses.length})
@@ -138,11 +152,6 @@ export default function Dashboard({
                 <div className="row row-cols-1 row-cols-md-5 g-4">
                     {visibleCourses.length > 0 ? (
                         visibleCourses.map((course) => {
-                        /*  const isEnrolled = db.enrollments.some(
-                                (enrollment) => enrollment.user === currentUser._id 
-                                    && enrollment.course === course._id 
-                            ); */
-
                             const isEnrolled = enrolledCourses.includes(course._id);
 
                             return (
