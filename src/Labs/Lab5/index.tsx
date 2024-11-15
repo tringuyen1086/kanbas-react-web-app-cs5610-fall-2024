@@ -8,6 +8,7 @@ export default function Lab5() {
                 Welcome
             </a>
         </div><hr/>
-        </div>
+    </div>
     );
 }
+
