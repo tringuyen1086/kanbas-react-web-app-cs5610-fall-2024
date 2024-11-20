@@ -3,6 +3,7 @@ import HttpClient from "./HttpClient";
 import PathParameters from "./PathParameters";
 import QueryParameters from "./QueryParameters";
 import WorkingWithArrays from "./WorkingWithArrays";
+import WorkingWithArraysAsynchronously from "./WorkingWithArraysAsynchronously";
 import WorkingWithObjects from "./WorkingWithObjects";
 import WorkingWithObjectsAsynchronously from "./WorkingWithObjectsAsynchronously";
 
@@ -25,6 +26,7 @@ export default function Lab5() {
         <WorkingWithArrays />
         <HttpClient />
         <WorkingWithObjectsAsynchronously />
+        <WorkingWithArraysAsynchronously />
     </div>
     );
 }
