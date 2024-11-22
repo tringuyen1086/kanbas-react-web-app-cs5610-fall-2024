@@ -57,6 +57,11 @@ export default function TOC() {
                     Tri Nguyen's Github
                 </a>
             </li>
+            <li className="nav-item">
+                <a id="wd-github" href="https://github.com/tringuyen1086/kanbas-node-server-app" className="nav-link">
+                    Tri Nguyen's Github node-server
+                </a>
+            </li>
         </ul>    
     )
 }

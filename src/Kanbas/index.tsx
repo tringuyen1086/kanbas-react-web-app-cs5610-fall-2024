@@ -6,16 +6,18 @@ import KanbasNavigation from "./KanbasNavigation";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "./styles.css";
-import * as db from "./Database";
-import { useState } from "react";
+// import * as db from "./Database";
+import { useEffect, useState } from "react";
 // import store from "./store";
 // import { Provider } from "react-redux";
 import ProtectedRoute from "./Account/ProtectedRoute";
 import { useSelector } from "react-redux";
 import Session from "./Account/Session";
+// import * as client from "./Courses/client";
+import * as userClient from "./Account/client";
 
 export default function Kanbas() {
-    const [courses, setCourses] = useState<any[]>(db.courses);
+    const [courses, setCourses] = useState<any[]>([]);
     const [course, setCourse] = useState<any>({
         _id: "1234", 
         name: "New Course", 
@@ -27,6 +29,17 @@ export default function Kanbas() {
     });
 
     const { currentUser } = useSelector((state: any) => state.accountReducer);
+    const fetchCourses = async () => {
+        try {
+        const courses = await userClient.findMyCourses();
+        setCourses(courses);
+        } catch (error) {
+        console.error(error);
+        }
+    };
+    useEffect(() => {
+        fetchCourses();
+    }, [currentUser]);
     const currentUserRole = currentUser?.role;
 
     const addNewCourse = () => {
@@ -48,6 +61,7 @@ export default function Kanbas() {
                 }
             })
     );
+
 };
     
     return (
