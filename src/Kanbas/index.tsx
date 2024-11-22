@@ -15,6 +15,8 @@ import { useSelector } from "react-redux";
 import Session from "./Account/Session";
 // import * as client from "./Courses/client";
 import * as userClient from "./Account/client";
+import * as courseClient from "./Courses/client";
+
 
 export default function Kanbas() {
     const [courses, setCourses] = useState<any[]>([]);
@@ -42,16 +44,27 @@ export default function Kanbas() {
     }, [currentUser]);
     const currentUserRole = currentUser?.role;
 
-    const addNewCourse = () => {
-        const newCourse = { ...course, _id: new Date().getTime().toString() };
+    const addNewCourse = async() => {
+        // const newCourse = { ...course, _id: new Date().getTime().toString() };
+        const newCourse = await userClient.createCourse(course);
         setCourses([...courses, { ...course, ...newCourse }]);
     };
 
-    const deleteCourse = (courseId: any) => {
+/*     const deleteCourse = (courseId: any) => {
         setCourses(courses.filter((course) => course._id !== courseId));
-    };
+    }; */
 
-    const updateCourse = () => {
+    const deleteCourse = async (courseId: string) => {
+        const status = await courseClient.deleteCourse(courseId);
+        if (status?.success || status?.status === 204 || status === undefined) {
+        setCourses(courses.filter((course) => course._id !== courseId));
+        };
+    }
+    
+
+
+    const updateCourse = async() => {
+        await courseClient.updateCourse(course);
         setCourses(
             courses.map((c) => {
                 if (c._id === course._id) {
