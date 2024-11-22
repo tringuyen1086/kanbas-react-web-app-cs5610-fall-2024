@@ -24,7 +24,8 @@ export default function HttpClient() {
         <h4>Requesting on Click</h4>
         <button className="btn btn-primary me-2" onClick={fetchWelcomeOnClick}>
             Fetch Welcome
-        </button> <br />
+        </button> {" "}
+        <br />
         <hr />
         
         <h4>Requesting on Load</h4>
