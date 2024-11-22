@@ -16,6 +16,7 @@ export default function AccountNavigation() {
       {links.map((link: string) => (
         <Link
           to={`/Kanbas/Account/${link}`}
+          key={link}
           className={`list-group-item text-danger border border-0 ${
             pathname.includes(link) ? "active" : ""
           }`}

@@ -164,6 +164,7 @@ export default function Dashboard({
                                             to={isEnrolled || currentUserRole === "FACULTY" 
                                                 ? `/Kanbas/Courses/${course._id}/Home` 
                                                 : "#"} 
+                                                key={course._id}
                                                 className="wd-dashboard-course-link text-decoration-none text-dark">
                                             <img
                                                 src={`/images/courses/${course.image}`} 

@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { setCurrentUser } from "./reducer";
+import * as client from "./client";
 export default function Profile() {
   const [profile, setProfile] = useState<any>({});
   const dispatch = useDispatch();
@@ -14,11 +15,19 @@ export default function Profile() {
       return navigate("/Kanbas/Account/Signin");
     setProfile(currentUser);
   };
-  const signout = () => {
+
+  const signout = async() => {
+    await client.signout();
     dispatch(setCurrentUser(null));
     navigate("/Kanbas/Account/Signin");
   };
+
   useEffect(() => { fetchProfile(); }, []);
+
+  const updateProfile = async () => {
+    const updatedProfile = await client.updateUser(profile);
+    dispatch(setCurrentUser(updatedProfile));
+  };
 
   return (
     <div className="wd-profile-screen">
@@ -92,6 +101,12 @@ export default function Profile() {
               <option value="STUDENT">Student</option>
             </select>
           </div>
+        
+        <button 
+          onClick={updateProfile} 
+          className="btn btn-primary w-100 mb-2"> 
+          Update 
+        </button>
 
         <button 
           onClick={signout}

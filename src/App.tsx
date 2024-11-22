@@ -19,7 +19,6 @@ function App() {
     <div>
       <HashRouter>
       <Provider store={store}>
-
           <div>
             <Routes>
               <Route path="/" element={<Navigate to="Labs" />} />             {/* default landing page  */}
