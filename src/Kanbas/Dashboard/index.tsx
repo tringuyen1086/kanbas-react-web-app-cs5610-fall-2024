@@ -19,6 +19,7 @@
 
 */
 
+import axios from "axios";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
@@ -30,12 +31,13 @@ import {
     selectEnrolledCourses,
     selectIsLoading,
     selectError,
-    clearError 
+    clearError,
+    setLoading
 } from "./reducer";
 import { Button } from "react-bootstrap";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
-// Types remain the same
+// Types
 interface Course {
     _id: string;
     name: string;
@@ -46,13 +48,109 @@ interface Course {
 interface DashboardProps {
     courses: Course[];
     course: Course;
-    setCourses: (courses: Course[]) => void;
+    setCourses: (courses: Course[] | ((prevCourses: Course[]) => Course[])) => void;
     setCourse: (course: Course) => void;
     addNewCourse: () => void;
     deleteCourse: (courseId: string) => void;
     updateCourse: () => void;
     currentUserRole: "STUDENT" | "FACULTY";
 }
+
+interface CourseCardProps {
+    course: Course;
+    currentUserRole: "STUDENT" | "FACULTY";
+    isEnrolled: boolean;
+    isLoading: boolean;
+    onEnrollToggle: (courseId: string, isEnrolled: boolean) => void;
+    onDelete: (courseId: string, e: React.MouseEvent) => void;
+    onEdit: (course: Course, e: React.MouseEvent) => void;
+}
+
+const CourseCard = ({ 
+    course, 
+    currentUserRole, 
+    isEnrolled, 
+    isLoading,
+    onEnrollToggle, 
+    onDelete, 
+    onEdit 
+}: CourseCardProps) => (
+    <div className="col d-flex align-items-stretch" style={{ width: "300px" }}>
+        <div className="card rounded-3 overflow-hidden">
+            <Link
+                to={`/Kanbas/Courses/${course._id}/Home`}
+                className="wd-dashboard-course-link text-decoration-none text-dark"
+            >
+                <img
+                    src={`/images/courses/${course.image}`}
+                    alt={course.name}
+                    width="100%"
+                    height={160}
+                    onError={(e) => {
+                        e.currentTarget.src = "/images/reactjs.jpg";
+                    }}
+                />
+                <div className="card-body">
+                    <h5 className="wd-dashboard-course-title card-title">
+                        {course.name}
+                    </h5>
+                    <p
+                        className="wd-dashboard-course-title card-text overflow-y-hidden"
+                        style={{ maxHeight: 100 }}
+                    >
+                        {course.description}
+                    </p>
+                    <div className="d-flex justify-content-between align-items-center">
+                        <Button
+                            variant="primary"
+                            disabled={!isEnrolled}
+                        >
+                            Go
+                        </Button>
+
+                        <div className="d-flex gap-2">
+                            <Button
+                                variant={isEnrolled ? "danger" : "success"}
+                                className="btn-sm"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    onEnrollToggle(course._id, isEnrolled);
+                                }}
+                                disabled={isLoading}
+                            >
+                                {isLoading ? "Loading..." : (isEnrolled ? "Unenroll" : "Enroll")}
+                            </Button>
+
+                            {currentUserRole === "FACULTY" && (
+                                <>
+                                    <Button
+                                        variant="warning"
+                                        className="btn-sm"
+                                        id="wd-edit-course-click"
+                                        onClick={(e) => onEdit(course, e)}
+                                        disabled={isLoading}
+                                    >
+                                        Edit
+                                    </Button>
+                                    <Button
+                                        variant="danger"
+                                        className="btn-sm"
+                                        id="wd-delete-course-click"
+                                        onClick={(e) => onDelete(course._id, e)}
+                                        disabled={isLoading}
+                                    >
+                                        Delete
+                                    </Button>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            </Link>
+        </div>
+    </div>
+);
 
 export default function Dashboard({
     courses,
@@ -71,50 +169,145 @@ export default function Dashboard({
     const isLoading = useSelector(selectIsLoading);
     const error = useSelector(selectError);
 
-    // Handle errors
+    // State to hold all available courses
+    const [availableCourses, setAvailableCourses] = useState<Course[]>([]);
+
+    // Ensure that whenever showAllCourses is false
+    // the courses state is filtered to include only enrolledCourses
+    useEffect(() => {
+        if (!showAllCourses) {
+            const filteredCourses = courses.filter((course) =>
+                enrolledCourses.includes(course._id)
+            );
+            setCourses(filteredCourses);
+        }
+    }, [showAllCourses, courses, enrolledCourses, setCourses]);
+
+    // Fetch all courses when "Show All Courses" is clicked
+    useEffect(() => {
+        const fetchAllCourses = async () => {
+            if (showAllCourses) {
+                dispatch(setLoading(true));
+                try {
+                    const response = await axios.get("http://localhost:4000/api/courses");
+                    setAvailableCourses(response.data);
+                } catch (error) {
+                    console.error("Error fetching all courses:", error);
+                } finally {
+                    dispatch(setLoading(false));
+                }
+            }
+        };
+        fetchAllCourses();
+    }, [showAllCourses, dispatch]);
+
+    useEffect(() => {
+        if (currentUser && !showAllCourses) {
+            const enrolledCoursesData = courses.filter((course) =>
+                enrolledCourses.includes(course._id)
+            );
+            setCourses(enrolledCoursesData);
+        }
+    }, [currentUser, enrolledCourses, courses, showAllCourses, setCourses]);
+
+    // Error handling
     useEffect(() => {
         if (error) {
-            // You could add a toast notification here
             console.error(error);
-            // Clear error after showing it
             setTimeout(() => {
                 dispatch(clearError());
             }, 5000);
         }
     }, [error, dispatch]);
 
-    // Filter courses based on the view toggle and user role
-    const visibleCourses = currentUserRole === "STUDENT" 
-        ? (showAllCourses ? courses : courses.filter(course => enrolledCourses.includes(course._id)))
-        : courses;
+    const visibleCourses = showAllCourses 
+        ? availableCourses 
+        : courses.filter((course) => enrolledCourses.includes(course._id));
 
-    const handleEnrollToggle = (courseId: string, isEnrolled: boolean) => {
-        if (isEnrolled) {
-            dispatch(unenrollCourse(courseId));
-        } else {
-            dispatch(enrollCourse(courseId));
+        const handleEnrollToggle = async (courseId: string, isEnrolled: boolean) => {
+            dispatch(setLoading(true));
+            try {
+                if (isEnrolled) {
+                    // Unenroll logic
+                    dispatch(unenrollCourse(courseId));
+                    setCourses((prevCourses) =>
+                        prevCourses.filter((course) => course._id !== courseId)
+                    );
+                } else {
+                    // Enroll logic
+                    const courseToEnroll = availableCourses.find((course) => course._id === courseId);
+                    if (courseToEnroll) {
+                        dispatch(enrollCourse(courseId));
+                        setCourses((prevCourses) => [...prevCourses, courseToEnroll]);
+                    }
+                }
+            } catch (error) {
+                console.error("Error toggling enrollment:", error);
+            } finally {
+                dispatch(setLoading(false));
+            }
+        };
+
+    const handleAddCourse = async (e: React.MouseEvent) => {
+        e.preventDefault();
+        dispatch(setLoading(true));
+        try {
+            await addNewCourse();
+            const newCourse = { ...course, _id: new Date().getTime().toString() };
+            setAvailableCourses(prev => [...prev, newCourse]);
+            setCourses([...courses, newCourse]);
+        } catch (error) {
+            console.error("Error adding course:", error);
+        } finally {
+            dispatch(setLoading(false));
         }
     };
 
-    // Other handlers remain the same
-    const handleAddCourse = (e: React.MouseEvent) => {
+    const handleUpdateCourse = async (e: React.MouseEvent) => {
         e.preventDefault();
-        addNewCourse();
-        setCourses([...courses, { ...course, _id: new Date().getTime().toString() }]);
+        dispatch(setLoading(true));
+        try {
+            await updateCourse();
+            const updatedCourse = { ...course };
+            setCourses((prevCourses: Course[]) => 
+                prevCourses.map((c: Course) => 
+                    c._id === course._id ? updatedCourse : c
+                )
+            );
+            setAvailableCourses((prevCourses: Course[]) => 
+                prevCourses.map((c: Course) => 
+                    c._id === course._id ? updatedCourse : c
+                )
+            );
+        } catch (error) {
+            console.error("Error updating course:", error);
+        } finally {
+            dispatch(setLoading(false));
+        }
     };
-
-    const handleUpdateCourse = (e: React.MouseEvent) => {
-        e.preventDefault();
-        updateCourse();
-    };
-
-    const handleDeleteCourse = (courseId: string, e: React.MouseEvent) => {
+    
+    const handleDeleteCourse = async (courseId: string, e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        deleteCourse(courseId);
-        setCourses(courses.filter((c) => c._id !== courseId));
+        dispatch(setLoading(true));
+        try {
+            await deleteCourse(courseId);
+            setCourses((prevCourses: Course[]) => 
+                prevCourses.filter((c: Course) => c._id !== courseId)
+            );
+            setAvailableCourses((prevCourses: Course[]) => 
+                prevCourses.filter((c: Course) => c._id !== courseId)
+            );
+            if (enrolledCourses.includes(courseId)) {
+                dispatch(unenrollCourse(courseId));
+            }
+        } catch (error) {
+            console.error("Error deleting course:", error);
+        } finally {
+            dispatch(setLoading(false));
+        }
     };
-
+    
     const handleEditCourse = (courseToEdit: Course, e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
@@ -127,7 +320,16 @@ export default function Dashboard({
 
     return (
         <div className="p-4" id="wd-dashboard">
-            <h1 id="wd-dashboard-title">Dashboard</h1>
+            <div className="d-flex justify-content-between align-items-center">
+                <h1 id="wd-dashboard-title">Dashboard</h1>
+                <Button
+                    variant="primary"
+                    onClick={() => dispatch(toggleView())}
+                    disabled={isLoading}
+                >
+                    {showAllCourses ? "Show My Courses" : "Show All Courses"}
+                </Button>
+            </div>
             <hr />
 
             {error && (
@@ -176,19 +378,8 @@ export default function Dashboard({
                 </div>
             )}
 
-            {currentUserRole === "STUDENT" && (
-                <Button
-                    variant="primary"
-                    className="float-end mb-3"
-                    onClick={() => dispatch(toggleView())}
-                    disabled={isLoading}
-                >
-                    {showAllCourses ? "Show My Courses" : "Show All Courses"}
-                </Button>
-            )}
-
             <h2 id="wd-dashboard-published">
-                {currentUserRole === "FACULTY" ? "All Courses" : (showAllCourses ? "All Courses" : "My Courses")} ({visibleCourses.length})
+                {showAllCourses ? "All Courses" : "My Courses"} ({visibleCourses.length})
             </h2>
             <hr />
 
@@ -224,18 +415,49 @@ export default function Dashboard({
     );
 }
 
-// Updated CourseCard props interface
+
+
+/* import axios from "axios";
+import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../store";
+import { 
+    toggleView, 
+    enrollCourse, 
+    unenrollCourse,
+    selectShowAllCourses,
+    selectEnrolledCourses,
+    selectIsLoading,
+    selectError,
+    clearError,
+    setLoading,
+    Course
+} from "./reducer";
+import { Button } from "react-bootstrap";
+import { useEffect, useState } from "react";
+
+interface DashboardProps {
+    courses: Course[];
+    course: Course;
+    setCourses: (courses: Course[] | ((prevCourses: Course[]) => Course[])) => void;
+    setCourse: (course: Course) => void;
+    addNewCourse: () => void;
+    deleteCourse: (courseId: string) => void;
+    updateCourse: () => void;
+    currentUserRole: "STUDENT" | "FACULTY";
+}
+
 interface CourseCardProps {
     course: Course;
     currentUserRole: "STUDENT" | "FACULTY";
     isEnrolled: boolean;
     isLoading: boolean;
     onEnrollToggle: (courseId: string, isEnrolled: boolean) => void;
-    onDelete: (courseId: string, e: React.MouseEvent) => void;
-    onEdit: (course: Course, e: React.MouseEvent) => void;
+    onDelete: (courseId: string, e: React.MouseEvent<HTMLButtonElement>) => void;
+    onEdit: (course: Course, e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
-const CourseCard = ({ 
+const CourseCard: React.FC<CourseCardProps> = ({ 
     course, 
     currentUserRole, 
     isEnrolled, 
@@ -243,7 +465,7 @@ const CourseCard = ({
     onEnrollToggle, 
     onDelete, 
     onEdit 
-}: CourseCardProps) => (
+}) => (
     <div className="col d-flex align-items-stretch" style={{ width: "300px" }}>
         <div className="card rounded-3 overflow-hidden">
             <Link
@@ -256,7 +478,8 @@ const CourseCard = ({
                     width="100%"
                     height={160}
                     onError={(e) => {
-                        e.currentTarget.src = "/images/reactjs.jpg";
+                        const target = e.target as HTMLImageElement;
+                        target.src = "/images/reactjs.jpg";
                     }}
                 />
                 <div className="card-body">
@@ -269,56 +492,302 @@ const CourseCard = ({
                     >
                         {course.description}
                     </p>
-                    <Button
-                        variant="primary"
-                        disabled={(!isEnrolled && currentUserRole === "STUDENT") || isLoading}
-                    >
-                        Go
-                    </Button>
-
-                    {currentUserRole === "STUDENT" && (
+                    <div className="d-flex justify-content-between align-items-center">
                         <Button
-                            variant={isEnrolled ? "danger" : "success"}
-                            className="float-end btn-sm"
-                            onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                onEnrollToggle(course._id, isEnrolled);
-                            }}
-                            disabled={isLoading}
+                            variant="primary"
+                            disabled={!isEnrolled}
                         >
-                            {isLoading ? "Loading..." : (isEnrolled ? "Unenroll" : "Enroll")}
+                            Go
                         </Button>
-                    )}
 
-                    {currentUserRole === "FACULTY" && (
-                        <>
+                        <div className="d-flex gap-2">
                             <Button
-                                variant="danger"
-                                className="float-end btn-sm"
-                                id="wd-delete-course-click"
-                                onClick={(e) => onDelete(course._id, e)}
+                                variant={isEnrolled ? "danger" : "success"}
+                                className="btn-sm"
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    onEnrollToggle(course._id, isEnrolled);
+                                }}
                                 disabled={isLoading}
                             >
-                                Delete
+                                {isLoading ? "Loading..." : (isEnrolled ? "Unenroll" : "Enroll")}
                             </Button>
-                            <Button
-                                variant="warning"
-                                className="float-end btn-sm me-2"
-                                id="wd-edit-course-click"
-                                onClick={(e) => onEdit(course, e)}
-                                disabled={isLoading}
-                            >
-                                Edit
-                            </Button>
-                        </>
-                    )}
+
+                            {currentUserRole === "FACULTY" && (
+                                <>
+                                    <Button
+                                        variant="warning"
+                                        className="btn-sm"
+                                        id="wd-edit-course-click"
+                                        onClick={(e) => onEdit(course, e)}
+                                        disabled={isLoading}
+                                    >
+                                        Edit
+                                    </Button>
+                                    <Button
+                                        variant="danger"
+                                        className="btn-sm"
+                                        id="wd-delete-course-click"
+                                        onClick={(e) => onDelete(course._id, e)}
+                                        disabled={isLoading}
+                                    >
+                                        Delete
+                                    </Button>
+                                </>
+                            )}
+                        </div>
+                    </div>
                 </div>
             </Link>
         </div>
     </div>
 );
 
+const Dashboard: React.FC<DashboardProps> = ({
+    courses,
+    course,
+    setCourses,
+    setCourse,
+    addNewCourse,
+    deleteCourse,
+    updateCourse,
+    currentUserRole,
+}) => {
+    const dispatch = useDispatch();
+    const currentUser = useSelector((state: RootState) => state.accountReducer.currentUser);
+    const showAllCourses = useSelector(selectShowAllCourses);
+    const enrolledCourses = useSelector(selectEnrolledCourses);
+    const isLoading = useSelector(selectIsLoading);
+    const error = useSelector(selectError);
+
+    const [availableCourses, setAvailableCourses] = useState<Course[]>([]);
+
+    // Load initial courses
+    useEffect(() => {
+        if (currentUser && !showAllCourses) {
+            setCourses(courses.filter(course => enrolledCourses.includes(course._id)));
+        }
+    }, [currentUser, enrolledCourses]);
+
+    // Fetch all courses when "Show All Courses" is clicked
+    useEffect(() => {
+        const fetchAllCourses = async () => {
+            if (showAllCourses) {
+                dispatch(setLoading(true));
+                try {
+                    const response = await axios.get("http://localhost:4000/api/courses");
+                    setAvailableCourses(response.data);
+                } catch (error) {
+                    console.error("Error fetching all courses:", error);
+                } finally {
+                    dispatch(setLoading(false));
+                }
+            }
+        };
+        fetchAllCourses();
+    }, [showAllCourses, dispatch]);
+
+    // Error handling
+    useEffect(() => {
+        if (error) {
+            console.error(error);
+            setTimeout(() => {
+                dispatch(clearError());
+            }, 5000);
+        }
+    }, [error, dispatch]);
+
+    const visibleCourses = showAllCourses 
+        ? availableCourses 
+        : courses;
+
+    const handleEnrollToggle = async (courseId: string, isEnrolled: boolean) => {
+        dispatch(setLoading(true));
+        try {
+            if (isEnrolled) {
+                dispatch(unenrollCourse(courseId));
+                setCourses((prevCourses: Course[]) => 
+                    prevCourses.filter((c: Course) => c._id !== courseId)
+                );
+            } else {
+                const courseToEnroll = availableCourses.find(c => c._id === courseId);
+                if (courseToEnroll) {
+                    dispatch(enrollCourse(courseId));
+                    setCourses((prevCourses: Course[]) => [...prevCourses, courseToEnroll]);
+                }
+            }
+        } catch (error) {
+            console.error("Error toggling enrollment:", error);
+        } finally {
+            dispatch(setLoading(false));
+        }
+    };
+
+    const handleAddCourse = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        dispatch(setLoading(true));
+        try {
+            await addNewCourse();
+            const newCourse: Course = { ...course, _id: new Date().getTime().toString() };
+            setAvailableCourses((prevCourses: Course[]) => [...prevCourses, newCourse]);
+            setCourses((prevCourses: Course[]) => [...prevCourses, newCourse]);
+        } catch (error) {
+            console.error("Error adding course:", error);
+        } finally {
+            dispatch(setLoading(false));
+        }
+    };
+
+    const handleUpdateCourse = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        dispatch(setLoading(true));
+        try {
+            await updateCourse();
+            const updatedCourse: Course = { ...course };
+            setCourses((prevCourses: Course[]) => 
+                prevCourses.map((c: Course) => c._id === course._id ? updatedCourse : c)
+            );
+            setAvailableCourses((prevCourses: Course[]) => 
+                prevCourses.map((c: Course) => c._id === course._id ? updatedCourse : c)
+            );
+        } catch (error) {
+            console.error("Error updating course:", error);
+        } finally {
+            dispatch(setLoading(false));
+        }
+    };
+
+    const handleDeleteCourse = async (courseId: string, e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dispatch(setLoading(true));
+        try {
+            await deleteCourse(courseId);
+            setCourses((prevCourses: Course[]) => 
+                prevCourses.filter((c: Course) => c._id !== courseId)
+            );
+            setAvailableCourses((prevCourses: Course[]) => 
+                prevCourses.filter((c: Course) => c._id !== courseId)
+            );
+            if (enrolledCourses.includes(courseId)) {
+                dispatch(unenrollCourse(courseId));
+            }
+        } catch (error) {
+            console.error("Error deleting course:", error);
+        } finally {
+            dispatch(setLoading(false));
+        }
+    };
+
+    const handleEditCourse = (courseToEdit: Course, e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setCourse(courseToEdit);
+    };
+
+    if (!currentUser) {
+        return <p>Loading...</p>;
+    }
+
+    return (
+        <div className="p-4" id="wd-dashboard">
+            <div className="d-flex justify-content-between align-items-center">
+                <h1 id="wd-dashboard-title">Dashboard</h1>
+                <Button
+                    variant="primary"
+                    onClick={() => dispatch(toggleView())}
+                    disabled={isLoading}
+                >
+                    {showAllCourses ? "Show My Courses" : "Show All Courses"}
+                </Button>
+            </div>
+            <hr />
+
+            {error && (
+                <div className="alert alert-danger" role="alert">
+                    {error}
+                </div>
+            )}
+
+            {currentUserRole === "FACULTY" && (
+                <div className="mb-4">
+                    <h5>New Course</h5>
+                    <div className="d-flex justify-content-end mb-3">
+                        <Button
+                            variant="warning"
+                            className="me-2"
+                            id="wd-update-course-click"
+                            onClick={handleUpdateCourse}
+                            disabled={isLoading}
+                        >
+                            Update
+                        </Button>
+                        <Button
+                            variant="primary"
+                            id="wd-add-new-course-click"
+                            onClick={handleAddCourse}
+                            disabled={isLoading}
+                        >
+                            Add
+                        </Button>
+                    </div>
+                    <input
+                        value={course.name}
+                        className="form-control mb-2"
+                        onChange={(e) => setCourse({ ...course, name: e.target.value })}
+                        placeholder="Course Name"
+                        disabled={isLoading}
+                    />
+                    <textarea
+                        value={course.description}
+                        className="form-control"
+                        onChange={(e) => setCourse({ ...course, description: e.target.value })}
+                        placeholder="Course Description"
+                        disabled={isLoading}
+                    />
+                    <hr />
+                </div>
+            )}
+
+            <h2 id="wd-dashboard-published">
+                {showAllCourses ? "All Courses" : "My Courses"} ({visibleCourses.length})
+            </h2>
+            <hr />
+
+            {isLoading && (
+                <div className="d-flex justify-content-center my-4">
+                    <div className="spinner-border text-primary" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                </div>
+            )}
+
+            <div id="wd-dashboard-courses" className="row">
+                <div className="row row-cols-1 row-cols-md-5 g-4">
+                    {visibleCourses.length > 0 ? (
+                        visibleCourses.map((course) => (
+                            <CourseCard
+                                key={course._id}
+                                course={course}
+                                currentUserRole={currentUserRole}
+                                isEnrolled={enrolledCourses.includes(course._id)}
+                                onEnrollToggle={handleEnrollToggle}
+                                onDelete={handleDeleteCourse}
+                                onEdit={handleEditCourse}
+                                isLoading={isLoading}
+                            />
+                        ))
+                    ) : (
+                        <p>No courses available.</p>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default Dashboard; */
 /* import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../store";
