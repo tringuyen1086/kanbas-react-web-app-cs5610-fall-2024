@@ -174,14 +174,7 @@ export default function Dashboard({
 
     // Ensure that whenever showAllCourses is false
     // the courses state is filtered to include only enrolledCourses
-    useEffect(() => {
-        if (!showAllCourses) {
-            const filteredCourses = courses.filter((course) =>
-                enrolledCourses.includes(course._id)
-            );
-            setCourses(filteredCourses);
-        }
-    }, [showAllCourses, courses, enrolledCourses, setCourses]);
+
 
     // Fetch all courses when "Show All Courses" is clicked
     useEffect(() => {
@@ -189,15 +182,23 @@ export default function Dashboard({
             if (showAllCourses) {
                 dispatch(setLoading(true));
                 try {
-                    const response = await axios.get("http://localhost:4000/api/courses");
-                    setAvailableCourses(response.data);
+                    // Use NODE_SERVER_DOMAIN to construct the API base URL
+                    const baseURL = process.env.REACT_APP_NODE_SERVER_DOMAIN 
+                        ? `https://${process.env.REACT_APP_NODE_SERVER_DOMAIN}`
+                        : "http://localhost:4000"; // Fallback for local development
+    
+                    const response = await axios.get(`${baseURL}/api/courses`);
+    
+                    setAvailableCourses(response.data); // Update state with the fetched data
                 } catch (error) {
                     console.error("Error fetching all courses:", error);
+                    dispatch(clearError()); // Optionally set a user-friendly error in Redux
                 } finally {
                     dispatch(setLoading(false));
                 }
             }
         };
+    
         fetchAllCourses();
     }, [showAllCourses, dispatch]);
 
@@ -209,6 +210,15 @@ export default function Dashboard({
             setCourses(enrolledCoursesData);
         }
     }, [currentUser, enrolledCourses, courses, showAllCourses, setCourses]);
+
+    useEffect(() => {
+        if (!showAllCourses) {
+            const filteredCourses = courses.filter((course) =>
+                enrolledCourses.includes(course._id)
+            );
+            setCourses(filteredCourses);
+        }
+    }, [showAllCourses, courses, enrolledCourses, setCourses]);
 
     // Error handling
     useEffect(() => {
