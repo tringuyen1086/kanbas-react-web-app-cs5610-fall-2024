@@ -175,7 +175,15 @@ export default function Dashboard({
     // Ensure that whenever showAllCourses is false
     // the courses state is filtered to include only enrolledCourses
 
-
+    useEffect(() => {
+        if (currentUser && !showAllCourses) {
+            const enrolledCoursesData = courses.filter((course) =>
+                enrolledCourses.includes(course._id)
+            );
+            setCourses(enrolledCoursesData);
+        }
+    }, [currentUser, enrolledCourses, courses, showAllCourses, setCourses]);
+    
     // Fetch all courses when "Show All Courses" is clicked
     useEffect(() => {
         const fetchAllCourses = async () => {
@@ -201,15 +209,6 @@ export default function Dashboard({
     
         fetchAllCourses();
     }, [showAllCourses, dispatch]);
-
-    useEffect(() => {
-        if (currentUser && !showAllCourses) {
-            const enrolledCoursesData = courses.filter((course) =>
-                enrolledCourses.includes(course._id)
-            );
-            setCourses(enrolledCoursesData);
-        }
-    }, [currentUser, enrolledCourses, courses, showAllCourses, setCourses]);
 
     useEffect(() => {
         if (!showAllCourses) {
